@@ -13,8 +13,6 @@ parser.add_argument("--ver", nargs=1,
                     help="Folder of images to add vertically", metavar='path')
 args = vars(parser.parse_args())
 
-# , default="./"
-# type=str,
 
 print(args)
 if args["mir"]:
@@ -51,15 +49,8 @@ def horizonalSheet(folder):
         newImg.paste(img, (count, 0))
         count += img.size[0]
 
-    newImg.save("Sprite.png")
+    newImg.save("HSprite.png")
 
 
 def verticalSheet():
     pass
-
-
-# if __name__ == "__main__":
-#     if sys.argv[1]:
-#         mirrorImg(sys.argv[1])
-#     else:
-#         print("Provide folder with images to flip")
