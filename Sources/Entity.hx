@@ -1,4 +1,4 @@
-package gameTools;
+package;
 
 import kha.graphics2.Graphics;
 import gameTools.Animation;

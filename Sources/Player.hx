@@ -3,7 +3,7 @@ package;
 import kha.graphics2.Graphics;
 import kha.Assets;
 import kha.input.KeyCode;
-import gameTools.Entity;
+import Entity;
 import gameTools.Animation;
 
 class Player extends Entity {
@@ -47,7 +47,7 @@ class Player extends Entity {
 			setAnimation(attackRight);
 		} else if (attack && !rightLook) {
 			setAnimation(attackLeft);
-		} else if (attack == false) {
+		} else {
 			setAnimation(rightLook ? idleRight : idleLeft);
 		}
 	}
