@@ -4,6 +4,7 @@ import os
 import glob
 import argparse
 
+
 parser = argparse.ArgumentParser()
 parser.add_argument("--mir", nargs=1,
                     help="Folder of images to mirror", metavar='path')
@@ -12,15 +13,6 @@ parser.add_argument("--hor", nargs=1,
 parser.add_argument("--ver", nargs=1,
                     help="Folder of images to add vertically", metavar='path')
 args = vars(parser.parse_args())
-
-
-print(args)
-if args["mir"]:
-    mirrorImg(args["mir"])
-elif args["hor"]:
-    horizonalSheet(args["hor"])
-elif args["ver"]:
-    verticalSheet(args["ver"])
 
 
 def mirrorImg(folder):
@@ -32,25 +24,46 @@ def mirrorImg(folder):
         im.save("FLIP_" + fileName)
 
 
-def horizonalSheet(folder):
+def directionalSheet(arg, folder):
     imgList = []
     for imgFile in glob.glob(os.path.join(os.getcwd(), folder, "*.png")):
-        fileName = os.path.basename(imgFile)
-        imgList.append(fileName)
+        imgList.append(imgFile)
+    # Sort images based on numbers from filename
+    imgList.sort(key=lambda x:
+                 int(x[x.rfind("/")+1:x.rfind(".")]))
 
-    images = map(Image.open, imgFile)
+    images = list(Image.open(img) for img in imgList)
     widths, heights = zip(*(i.size for i in images))
-    sumWidth = sum(widths)
-    maxHeight = max(heights)
-    newImg = Image.new("RGB", (sumWidth, maxHeight))
+    # Horizontal sprite sheet
+    if arg == "hor":
+        sumWidth = sum(widths)
+        maxHeight = max(heights)
+        newImg = Image.new("RGBA", (sumWidth, maxHeight))
 
-    count = 0
-    for img in images:
-        newImg.paste(img, (count, 0))
-        count += img.size[0]
+        count = 0
+        for img in images:
+            newImg.paste(img, (count, 0))
+            count += img.size[0]
+        newImg.save("HSprite.png")
 
-    newImg.save("HSprite.png")
+    else:
+        maxWidth = max(widths)
+        sumHeight = sum(heights)
+        newImg = Image.new("RGBA", (maxWidth, sumHeight))
+
+        count = 0
+        for img in images:
+            newImg.paste(img, (0, count))
+            count += img.size[1]
+        newImg.save("VSprite.png")
 
 
-def verticalSheet():
-    pass
+for aPath in args.values():
+    if aPath is not None:
+        if os.path.isdir(aPath[0]):
+            if args["mir"]:
+                mirrorImg(args["mir"][0])
+            elif args["hor"]:
+                directionalSheet("hor", args["hor"][0])
+            elif args["ver"]:
+                directionalSheet("ver", args["ver"][0])
