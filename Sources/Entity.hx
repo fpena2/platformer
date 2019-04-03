@@ -19,7 +19,7 @@ class Entity extends Polygon2D {
 	public var height:Float = 0;
 
 	var speed:Int = 4;
-	var friction:Int = 3;
+	var friction:Int = 8;
 	var velocity:Vec2 = new Vec2(0, 0);
 	var ArrayIndices:Array<Vec2>;
 

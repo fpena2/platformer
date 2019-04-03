@@ -39,9 +39,11 @@ class Player extends Entity {
 
 		if (left) {
 			setAnimation(walkLeft);
+			velocity.x = -1;
 			rightLook = false;
 		} else if (right) {
 			setAnimation(walkRight);
+			velocity.x = 1;
 			rightLook = true;
 		} else if (attack && rightLook) {
 			setAnimation(attackRight);
