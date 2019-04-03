@@ -1,4 +1,4 @@
 # platformer
 <p align="center">
-  <img width="630" height="470" src="Assets/sample2.gif">
+  <img width="630" height="470" src="Assets/sample.gif">
 </p>
