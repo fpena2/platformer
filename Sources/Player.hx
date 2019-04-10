@@ -4,7 +4,7 @@ import kha.graphics2.Graphics;
 import kha.Assets;
 import kha.input.KeyCode;
 import Entity;
-import gameTools.Animation;
+import Animation;
 
 class Player extends Entity {
 	public var walkRight:Animation;
@@ -13,16 +13,18 @@ class Player extends Entity {
 	public var idleLeft:Animation;
 	public var attackRight:Animation;
 	public var attackLeft:Animation;
-	public var jumpRight:Animation;
-	public var jumpLeft:Animation;
+	// Todo: Implement jump
+	// public var jumpRight:Animation;
+	// public var jumpLeft:Animation;
 	public var left:Bool;
 	public var right:Bool;
 	public var attack:Bool;
 	public var rightLook = true;
 
 	public function new(x:Int, y:Int) {
-		// TODO: use super + new funt to change iimage
-		super(Assets.images.Hero, x, y, 64, 64);
+		// TODO: use super + new func to change image
+		super(Assets.images.Hero, x, y, 64, 64, 4);
+
 		attackLeft = Animation.createRange(0, 9, 3);
 		attackRight = Animation.createRange(10, 19, 3);
 
@@ -31,6 +33,7 @@ class Player extends Entity {
 
 		idleLeft = Animation.createRange(40, 45, 7);
 		idleRight = Animation.createRange(50, 55, 7);
+
 		setAnimation(idleRight);
 	}
 

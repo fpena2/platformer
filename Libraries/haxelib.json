@@ -1,7 +1,6 @@
-[{
-    "name": "gameTools",
-    "classPath": "Sources"
-},{
-    "name": "physics",
-    "classPath": "Sources"
-}]
+[
+    {
+        "name": "gameTools",
+        "classPath": "Sources"
+    }
+]

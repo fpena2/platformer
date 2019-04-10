@@ -1,4 +1,4 @@
-package gameTools;
+package;
 
 class Animation {
 	private var indices:Array<Int>;

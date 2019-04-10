@@ -1,23 +1,23 @@
 package;
 
 import kha.graphics2.Graphics;
-import gameTools.Animation;
+import Animation;
 import glm.Vec2;
 import kha.Image;
 import kha.Color;
-import physics.Polygon2D;
+import Body;
 
-class Entity extends Polygon2D {
+class Entity extends Body {
 	public var pSize:Vec2 = new Vec2(64, 64); // Player size in pixels
 	public var image:Image;
 	public var animation:Animation;
 
-	var w:Float;
-	var h:Float;
-
-	public var width:Float = 0;
-	public var height:Float = 0;
-
+	// Copy of img dimensions for graphics transformations
+	var charImgWidth:Float;
+	var charImgHeight:Float;
+	// Char features
+	var charWidth:Float = 0;
+	var charHeight:Float = 0;
 	var speed:Int = 4;
 	var friction:Int = 8;
 	var velocity:Vec2 = new Vec2(0, 0);
@@ -25,19 +25,27 @@ class Entity extends Polygon2D {
 
 	public var active(default, set):Bool = true;
 
-	public function new(image:Image, x:Float = 0, y:Float = 0, width:Int = 0, height:Int = 0) {
-		ArrayIndices = [new Vec2(x, y), new Vec2(x + w, y), new Vec2(x + w, y + h), new Vec2(x, y + h)];
-		super(ArrayIndices);
-		set_offset([x, y]);
-
-		w = width;
-		h = height;
+	public function new(image:Image, xPos:Float = 0, yPos:Float = 0, tileW:Int = 0, tileH:Int = 0, size:Int = 1) {
+		// image is a large sprite sheet
 		this.image = image;
+		charImgWidth = tileW;
+		charImgHeight = tileH;
 
-		if (this.width == 0 && image != null)
-			this.width = pSize.x * 4;
-		if (this.height == 0 && image != null)
-			this.height = pSize.y * 4;
+		// Passes data to body structure
+		ArrayIndices = [
+			new Vec2(xPos, yPos),
+			new Vec2(xPos + charImgWidth, yPos),
+			new Vec2(xPos + charImgWidth, yPos + charImgHeight),
+			new Vec2(xPos, yPos + charImgHeight)
+		];
+
+		super(ArrayIndices, [xPos, yPos]);
+
+		if (this.charWidth == 0 && image != null)
+			this.charWidth = charImgWidth * size;
+		if (this.charHeight == 0 && image != null)
+			this.charHeight = charImgHeight * size;
+
 		animation = Animation.create(0);
 	}
 
@@ -55,8 +63,9 @@ class Entity extends Polygon2D {
 	public function render(graphics:Graphics) {
 		if (image != null) {
 			graphics.color = Color.White;
-			graphics.drawScaledSubImage(image, Std.int(animation.get() * w) % image.width, Math.floor(animation.get() * w / image.width) * h, w, h,
-				Math.round(offset.x), Math.round(offset.y), this.width, this.height);
+			graphics.drawScaledSubImage(image, Std.int(animation.get() * charImgWidth) % image.width,
+				Math.floor(animation.get() * charImgWidth / image.width) * charImgHeight, charImgWidth, charImgHeight, Math.round(offset.x),
+				Math.round(offset.y), this.charWidth, this.charHeight);
 		}
 	}
 
